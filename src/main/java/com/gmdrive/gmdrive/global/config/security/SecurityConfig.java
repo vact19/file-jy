@@ -41,6 +41,7 @@ public class SecurityConfig {
                 그래서 GET 요청에서도 SecurityContext의 Authentication 객체를 활용 가능하다. 물론 해당 객체는 null일 수도 있다.
                 */
                 .requestMatchers(HttpMethod.OPTIONS).permitAll() // OPTIONS 요청은 토큰 검증 예외
+                .requestMatchers(HttpMethod.GET, "/error").permitAll() // OPTIONS 요청은 토큰 검증 예외
                 .requestMatchers(HttpMethod.POST, "/users").permitAll() // 회원가입 요청은 토큰 검증 예외
                 .anyRequest().authenticated()
                 .and()
