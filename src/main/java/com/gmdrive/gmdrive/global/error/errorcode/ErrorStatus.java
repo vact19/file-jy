@@ -1,4 +1,4 @@
-package com.gmdrive.gmdrive.global.exception.errorcode;
+package com.gmdrive.gmdrive.global.error.errorcode;
 
 import org.springframework.http.HttpStatus;
 

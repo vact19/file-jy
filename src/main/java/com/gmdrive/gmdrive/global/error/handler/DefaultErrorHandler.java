@@ -1,6 +1,6 @@
-package com.gmdrive.gmdrive.global.exception.handler;
+package com.gmdrive.gmdrive.global.error.handler;
 
-import com.gmdrive.gmdrive.global.exception.dto.ErrorResponse;
+import com.gmdrive.gmdrive.global.error.dto.ErrorResponse;
 import com.gmdrive.gmdrive.global.util.log.LoggingUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class DefaultErrorHandler implements ErrorController {
             loggingUtil.printLog(request, error);
             errorMsg = error.getMessage();
         } else {
-            errorMsg = (String) errorAttributesMap.getOrDefault("message", "Unknown error occurred");
+            errorMsg = (String) errorAttributesMap.getOrDefault("message", "Unknown error");
         }
 
         return createErrorResponse(errorMsg);

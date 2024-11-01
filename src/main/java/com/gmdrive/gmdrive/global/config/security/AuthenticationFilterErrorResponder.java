@@ -2,8 +2,8 @@ package com.gmdrive.gmdrive.global.config.security;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gmdrive.gmdrive.global.exception.dto.ErrorResponse;
-import com.gmdrive.gmdrive.global.exception.errorcode.ErrorCode;
+import com.gmdrive.gmdrive.global.error.dto.ErrorResponse;
+import com.gmdrive.gmdrive.global.error.errorcode.ErrorCode;
 import com.gmdrive.gmdrive.global.util.log.LoggingUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

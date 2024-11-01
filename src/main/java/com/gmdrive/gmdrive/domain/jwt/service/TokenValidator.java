@@ -2,8 +2,8 @@ package com.gmdrive.gmdrive.domain.jwt.service;
 
 
 import com.gmdrive.gmdrive.domain.jwt.constant.AuthScheme;
-import com.gmdrive.gmdrive.global.exception.errorcode.AuthErrorCode;
-import com.gmdrive.gmdrive.global.exception.exceptions.auth.jwt.JwtAuthenticationException;
+import com.gmdrive.gmdrive.global.error.errorcode.AuthErrorCode;
+import com.gmdrive.gmdrive.global.error.exception.auth.jwt.JwtAuthenticationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

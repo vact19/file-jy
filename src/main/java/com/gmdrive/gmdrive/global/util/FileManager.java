@@ -1,7 +1,7 @@
 package com.gmdrive.gmdrive.global.util;
 
-import com.gmdrive.gmdrive.global.exception.errorcode.FileErrorCode;
-import com.gmdrive.gmdrive.global.exception.exceptions.external.file.FileIOException;
+import com.gmdrive.gmdrive.global.error.errorcode.FileErrorCode;
+import com.gmdrive.gmdrive.global.error.exception.external.file.FileIOException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component

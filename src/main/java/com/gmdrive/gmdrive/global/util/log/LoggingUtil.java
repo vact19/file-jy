@@ -1,6 +1,6 @@
 package com.gmdrive.gmdrive.global.util.log;
 
-import com.gmdrive.gmdrive.global.exception.errorcode.ErrorCode;
+import com.gmdrive.gmdrive.global.error.errorcode.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

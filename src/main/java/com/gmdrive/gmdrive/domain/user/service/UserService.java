@@ -4,8 +4,8 @@ import com.gmdrive.gmdrive.domain.common.jpa.vo.Email;
 import com.gmdrive.gmdrive.domain.user.dto.UserSignInRequest;
 import com.gmdrive.gmdrive.domain.user.entity.User;
 import com.gmdrive.gmdrive.domain.user.repository.UserRepository;
-import com.gmdrive.gmdrive.global.exception.errorcode.UserErrorCode;
-import com.gmdrive.gmdrive.global.exception.exceptions.business.BusinessException;
+import com.gmdrive.gmdrive.global.error.errorcode.UserErrorCode;
+import com.gmdrive.gmdrive.global.error.exception.business.BusinessException;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
