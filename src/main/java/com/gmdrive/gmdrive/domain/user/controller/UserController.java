@@ -18,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users")
-    public ResponseTemplate<UserSignInResponse> handleSignIn(
+    public ResponseTemplate<UserSignInResponse> handleSignUp(
             @RequestBody @Valid UserSignInRequest userSignInRequest
     ) {
         User user = userService.signUp(userSignInRequest);
