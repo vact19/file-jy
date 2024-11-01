@@ -13,9 +13,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
-    private final AuthenticationErrorResponder authenticationErrorResponder;
+    private final AuthenticationFilterErrorResponder authenticationFilterErrorResponder;
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
-        authenticationErrorResponder.respond(request, response);
+        authenticationFilterErrorResponder.respond(request, response);
     }
 }

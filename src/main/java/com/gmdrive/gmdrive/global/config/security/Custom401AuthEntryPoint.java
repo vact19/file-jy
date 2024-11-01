@@ -14,10 +14,10 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Component
 public class Custom401AuthEntryPoint implements AuthenticationEntryPoint {
-    private final AuthenticationErrorResponder authenticationErrorResponder;
+    private final AuthenticationFilterErrorResponder authenticationFilterErrorResponder;
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        authenticationErrorResponder.respond(request, response);
+        authenticationFilterErrorResponder.respond(request, response);
     }
 }
