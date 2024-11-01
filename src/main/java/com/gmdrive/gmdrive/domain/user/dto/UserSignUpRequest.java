@@ -2,7 +2,7 @@ package com.gmdrive.gmdrive.domain.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record UserSignInRequest(
+public record UserSignUpRequest(
         @NotBlank String email,
         @NotBlank String username,
         @NotBlank String password

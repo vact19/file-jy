@@ -7,25 +7,25 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 @AllArgsConstructor
-public class UserSignInResponse {
+public class UserSignUpResponse {
     @JsonProperty("user")
-    public final UserSignInDto userSignInDto;
+    public final UserSignUpDto userSignUpDto;
 
-    public static UserSignInResponse from(User user) {
-        return new UserSignInResponse(
-                UserSignInDto.builder()
+    public static UserSignUpResponse from(User user) {
+        return new UserSignUpResponse(
+                UserSignUpDto.builder()
                         .id(user.getId())
                         .username(user.getUsername())
                         .build()
         );
     }
 
-    public static class UserSignInDto {
+    public static class UserSignUpDto {
         public final Long id;
         public final String username;
 
         @Builder(access = AccessLevel.PRIVATE)
-        private UserSignInDto(Long id, String username) {
+        private UserSignUpDto(Long id, String username) {
             this.id = id;
             this.username = username;
         }
