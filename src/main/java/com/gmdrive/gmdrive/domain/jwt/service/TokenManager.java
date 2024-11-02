@@ -40,11 +40,11 @@ public class TokenManager {
     }
 
     public TokenDto createTokenDto(String audience) {
-        Date accessTokenExp = createAccessTokenExp();
-        Date refreshTokenExp = createRefreshTokenExp();
+        LocalDateTime accessTokenExp = LocalDateTime.now().plusMinutes(accessTokenExpMinutes);
+        LocalDateTime refreshTokenExp = LocalDateTime.now().plusMinutes(refreshTokenExpDays);
 
-        String accessToken = createAccessToken(audience, accessTokenExp);
-        String refreshToken = createRefreshToken(audience, refreshTokenExp);
+        String accessToken = createAccessToken(audience, DateConverter.convertToDate(accessTokenExp));
+        String refreshToken = createRefreshToken(audience, DateConverter.convertToDate(refreshTokenExp));
         return TokenDto.builder()
                 .authScheme(AuthScheme.BEARER.getLabel())
                 .accessToken(accessToken)
@@ -52,31 +52,6 @@ public class TokenManager {
                 .refreshToken(refreshToken)
                 .refreshTokenExp(refreshTokenExp)
                 .build();
-    }
-
-    // 테스트용 14일 유효 토큰 쌍 생성
-    public TokenDto createTokenDtoTemp(String audience, Date tokenExp) {
-        String accessToken = createAccessToken(audience, tokenExp);
-        String refreshToken = createRefreshToken(audience, tokenExp);
-        return TokenDto.builder()
-                .authScheme(AuthScheme.BEARER.getLabel())
-                .accessToken(accessToken)
-                .accessTokenExp(tokenExp)
-                .refreshToken(refreshToken)
-                .refreshTokenExp(tokenExp)
-                .build();
-    }
-
-    private Date createAccessTokenExp() {
-        return DateConverter.convertToDate(
-                LocalDateTime
-                        .now()
-                        .plusMinutes(accessTokenExpMinutes)
-        );
-    }
-
-    private Date createRefreshTokenExp() {
-        return new Date(System.currentTimeMillis() + refreshTokenExpDays);
     }
 
     private String createAccessToken(String audience, Date exp) {
