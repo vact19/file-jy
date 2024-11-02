@@ -32,7 +32,7 @@ public class UserService {
         User user = User.builder()
                 .email(email)
                 .username(userSignUpRequest.username())
-                .password(userSignUpRequest.password())
+                .password(passwordEncoder.encode(userSignUpRequest.password()))
                 .build();
         return userRepository.save(user);
     }
