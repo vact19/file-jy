@@ -1,6 +1,8 @@
 package com.gmdrive.gmdrive.domain.user.controller;
 
 import com.gmdrive.gmdrive.api.ResponseTemplate;
+import com.gmdrive.gmdrive.domain.jwt.dto.TokenDto;
+import com.gmdrive.gmdrive.domain.user.dto.UserSignInRequest;
 import com.gmdrive.gmdrive.domain.user.dto.UserSignUpRequest;
 import com.gmdrive.gmdrive.domain.user.dto.UserSignUpResponse;
 import com.gmdrive.gmdrive.domain.user.entity.User;
@@ -28,6 +30,18 @@ public class UserController {
                 HttpStatus.CREATED,
                 String.format("회원 '%s' 가입 완료", userSignUpResponse.userSignUpDto.username),
                 userSignUpResponse
+        );
+    }
+
+    @PostMapping("/users/sign-in")
+    public ResponseTemplate<TokenDto> handleSignIn(
+            @RequestBody @Valid UserSignInRequest userSignInRequest
+    ) {
+        TokenDto tokenDto = userService.signIn(userSignInRequest);
+        return new ResponseTemplate<>(
+                HttpStatus.OK,
+                String.format("회원 '%s' 가입 완료", tokenDto.getUsername()),
+                tokenDto
         );
     }
 }

@@ -7,8 +7,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -43,6 +45,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.OPTIONS).permitAll() // OPTIONS 요청은 토큰 검증 예외
                 .requestMatchers(HttpMethod.GET, "/error").permitAll() // OPTIONS 요청은 토큰 검증 예외
                 .requestMatchers(HttpMethod.POST, "/users").permitAll() // 회원가입 요청은 토큰 검증 예외
+                .requestMatchers(HttpMethod.POST, "/users/sign-in").permitAll() // 로그인 요청은 토큰 검증 예외
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

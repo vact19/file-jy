@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -22,6 +24,7 @@ public class User extends BaseEntity {
     private String username;
     private String password; // Password VO로 바꿀 생각도 해봐야 함
     private String refreshToken;
+    private LocalDateTime refreshTokenExp;
 
     @Builder
     private User(Email email, String username, String password) {
@@ -42,5 +45,12 @@ public class User extends BaseEntity {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.refreshToken = null;
+        this.refreshTokenExp = null;
+    }
+
+    public void signIn(String refreshToken, LocalDateTime refreshTokenExp) {
+        this.refreshToken = refreshToken;
+        this.refreshTokenExp = refreshTokenExp;
     }
 }
