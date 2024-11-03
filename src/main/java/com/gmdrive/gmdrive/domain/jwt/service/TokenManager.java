@@ -30,8 +30,8 @@ public class TokenManager {
     @Autowired
     public TokenManager(
               @Value("${token.secret}") String tokenSecret,
-              @Value("${token.access-token-expiration-time}") long accessTokenExpMinutes,
-              @Value("${token.refresh-token-expiration-time}") long refreshTokenExpDays) {
+              @Value("${token.access-token-expiration-minute}") long accessTokenExpMinutes,
+              @Value("${token.refresh-token-expiration-day}") long refreshTokenExpDays) {
         // Base64 Decode. String to Bin
         byte[] keyBytes = Decoders.BASE64.decode(tokenSecret);
         this.key = Keys.hmacShaKeyFor(keyBytes);
@@ -41,7 +41,7 @@ public class TokenManager {
 
     public TokenDto createTokenDto(String audience) {
         LocalDateTime accessTokenExp = LocalDateTime.now().plusMinutes(accessTokenExpMinutes);
-        LocalDateTime refreshTokenExp = LocalDateTime.now().plusMinutes(refreshTokenExpDays);
+        LocalDateTime refreshTokenExp = LocalDateTime.now().plusDays(refreshTokenExpDays);
 
         String accessToken = createAccessToken(audience, DateConverter.convertToDate(accessTokenExp));
         String refreshToken = createRefreshToken(audience, DateConverter.convertToDate(refreshTokenExp));
