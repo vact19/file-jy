@@ -3,6 +3,7 @@ package com.gmdrive.gmdrive.domain.user.service;
 import com.gmdrive.gmdrive.domain.common.jpa.vo.Email;
 import com.gmdrive.gmdrive.domain.jwt.dto.TokenDto;
 import com.gmdrive.gmdrive.domain.jwt.service.TokenManager;
+import com.gmdrive.gmdrive.domain.storage.personal.service.PersonalStorageService;
 import com.gmdrive.gmdrive.domain.user.dto.UserSignInRequest;
 import com.gmdrive.gmdrive.domain.user.dto.UserSignUpRequest;
 import com.gmdrive.gmdrive.domain.user.entity.User;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,7 +24,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenManager tokenManager;
+    private final PersonalStorageService personalStorageService;
 
+    @Transactional
     public User signUp(UserSignUpRequest userSignUpRequest) {
         Email email = new Email(userSignUpRequest.email());
         if (userRepository.existsByEmail(email)) {
@@ -34,7 +38,9 @@ public class UserService {
                 .username(userSignUpRequest.username())
                 .password(passwordEncoder.encode(userSignUpRequest.password()))
                 .build();
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        personalStorageService.save(savedUser);
+        return savedUser;
     }
 
     public TokenDto signIn(UserSignInRequest userSignInRequest) {
