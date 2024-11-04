@@ -3,7 +3,7 @@ package com.gmdrive.gmdrive.domain.user.service;
 import com.gmdrive.gmdrive.domain.common.jpa.vo.Email;
 import com.gmdrive.gmdrive.domain.jwt.dto.TokenDto;
 import com.gmdrive.gmdrive.domain.jwt.service.TokenManager;
-import com.gmdrive.gmdrive.domain.storage.personal.service.PersonalStorageService;
+import com.gmdrive.gmdrive.domain.storage.service.PersonalStorageService;
 import com.gmdrive.gmdrive.domain.user.dto.UserSignInRequest;
 import com.gmdrive.gmdrive.domain.user.dto.UserSignUpRequest;
 import com.gmdrive.gmdrive.domain.user.entity.User;
