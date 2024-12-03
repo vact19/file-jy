@@ -25,25 +25,17 @@ public class FileManager {
         this.fileUploadPath = fileUploadPath;
     }
 
-    /**@return save(FilePrefix prefix, MultipartFile multipartFile) 메서드 반환값의 리스트*/
-    public List<Optional<String>> save(FilePrefix prefix, List<MultipartFile> multipartFiles){
-        return multipartFiles.stream()
-                .map(multipartFile -> save(prefix, multipartFile))
-                .toList();
-    }
-
     /**@return "저장된 파일명 UUID" + ".확장자". */
-    public Optional<String> save(FilePrefix prefix, MultipartFile multipartFile){
+    public Path save(FilePrefix prefix, MultipartFile multipartFile){
         // empty Check. type=file 이며 name이 일치한다면, 본문이 비어있어도 MultiPartFile 객체가 생성된다.
         if (multipartFile.isEmpty()) {
-            log.warn("save() 메서드 Empty Optional 반환, 파일이 비어있을 수 있음.");
-            return Optional.empty();
+            throw new FileIOException(FileErrorCode.MULTIPART_FILE_CANNOT_BE_READ);
         }
         String filenameToStore = convertFileNameToUuid(multipartFile.getOriginalFilename());
-        Path filePathToStore = Paths.get(fileUploadPath + prefix.getPrefix() + filenameToStore);
+        Path filePathToStore = Paths.get(fileUploadPath + prefix.getPrefix(), filenameToStore);
         
         saveMultipartFile(multipartFile, filePathToStore);
-        return Optional.of(filenameToStore);
+        return filePathToStore;
     }
 
     public void save(FilePrefix prefix, MultipartFile multipartFile, String filenameToStore){
@@ -146,7 +138,7 @@ public class FileManager {
      */
     @Getter
     public enum FilePrefix {
-        STORAGE("storage/"),
+        STORAGE_FILE("storage_file/"),
         NONE(""),
         ;
 

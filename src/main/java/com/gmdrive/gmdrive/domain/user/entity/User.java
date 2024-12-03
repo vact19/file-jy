@@ -28,6 +28,20 @@ public class User extends BaseEntity {
 
     @Builder
     private User(Email email, String username, String password) {
+        validateValues(email, username, password);
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.refreshToken = null;
+        this.refreshTokenExp = null;
+    }
+
+    public void signIn(String refreshToken, LocalDateTime refreshTokenExp) {
+        this.refreshToken = refreshToken;
+        this.refreshTokenExp = refreshTokenExp;
+    }
+
+    private static void validateValues(Email email, String username, String password) {
         if (email == null) {
             throw new BusinessException(UserErrorCode.INVALID_EMAIL, email);
         }
@@ -42,15 +56,5 @@ public class User extends BaseEntity {
         if (password == null) {
             throw new BusinessException(UserErrorCode.INVALID_PASSWORD, password);
         }
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.refreshToken = null;
-        this.refreshTokenExp = null;
-    }
-
-    public void signIn(String refreshToken, LocalDateTime refreshTokenExp) {
-        this.refreshToken = refreshToken;
-        this.refreshTokenExp = refreshTokenExp;
     }
 }

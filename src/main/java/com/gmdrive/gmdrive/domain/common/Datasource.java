@@ -9,7 +9,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Datasource {
     // ======== 사용자 ========
-    USER("사용자")
+    USER("사용자"),
+    STORAGE("저장소")
 
     ;
     public final String label;

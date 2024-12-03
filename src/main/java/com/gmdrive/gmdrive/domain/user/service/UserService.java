@@ -3,7 +3,7 @@ package com.gmdrive.gmdrive.domain.user.service;
 import com.gmdrive.gmdrive.domain.common.jpa.vo.Email;
 import com.gmdrive.gmdrive.domain.jwt.dto.TokenDto;
 import com.gmdrive.gmdrive.domain.jwt.service.TokenManager;
-import com.gmdrive.gmdrive.domain.storage.service.PersonalStorageService;
+import com.gmdrive.gmdrive.domain.storage.service.StorageService;
 import com.gmdrive.gmdrive.domain.user.dto.UserSignInRequest;
 import com.gmdrive.gmdrive.domain.user.dto.UserSignUpRequest;
 import com.gmdrive.gmdrive.domain.user.entity.User;
@@ -24,7 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenManager tokenManager;
-    private final PersonalStorageService personalStorageService;
+    private final StorageService storageService;
 
     @Transactional
     public User signUp(UserSignUpRequest userSignUpRequest) {
@@ -39,7 +39,7 @@ public class UserService {
                 .password(passwordEncoder.encode(userSignUpRequest.password()))
                 .build();
         User savedUser = userRepository.save(user);
-        personalStorageService.save(savedUser);
+        storageService.save(savedUser);
         return savedUser;
     }
 

@@ -19,20 +19,25 @@ public class Storage extends BaseEntity {
     private String name;
     @Enumerated(EnumType.STRING)
     private StorageType storageType;
-    private int uploadedSizeKb;
+    private long uploadedSizeInBytes;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id")
-    private User creator;
+    @JoinColumn(name = "owner_id")
+    private User owner;
 
-    private Storage(String name, User creator, StorageType storageType) {
+    //todo 생성자 검증
+    private Storage(String name, User owner, StorageType storageType) {
         this.name = name;
-        this.creator = creator;
+        this.owner = owner;
         this.storageType = storageType;
-        this.uploadedSizeKb = 0;
+        this.uploadedSizeInBytes = 0;
     }
 
     public static Storage personalStorage(User creator) {
         return new Storage(String.format("%s의 저장소", creator.getUsername()), creator, StorageType.PERSONAL);
+    }
+
+    public boolean isStorageOwner(long userId) {
+        return id == userId;
     }
 }
