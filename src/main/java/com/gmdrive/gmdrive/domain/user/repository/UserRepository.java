@@ -24,4 +24,9 @@ public class UserRepository {
         return userJpaRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException(Datasource.USER, "email", email.getValue()));
     }
+
+    public User getById(long id) {
+        return userJpaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(Datasource.USER, id));
+    }
 }
