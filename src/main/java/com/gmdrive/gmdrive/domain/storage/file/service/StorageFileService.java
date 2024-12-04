@@ -34,7 +34,7 @@ public class StorageFileService {
         // 저장, 파일명 가져오기
         Path uploadedFilePath = fileManager.save(FileManager.FilePrefix.STORAGE_FILE, file);
         StorageFile storageFile = StorageFile.builder()
-                .originalFilename(file.getOriginalFilename())
+                .name(file.getOriginalFilename())
                 .sizeInBytes(file.getSize())
                 .storedPath(uploadedFilePath)
                 .uploader(uploader)

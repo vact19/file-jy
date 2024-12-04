@@ -20,7 +20,7 @@ import java.util.UUID;
 public class StorageFile extends BaseEntity {
     @Id
     private String id;
-    private String originalFilename;
+    private String name;
     @Column(nullable = false)
     private long sizeInBytes;
     private String storedPath;
@@ -34,10 +34,10 @@ public class StorageFile extends BaseEntity {
     private Storage storage;
 
     @Builder
-    private StorageFile(String originalFilename, long sizeInBytes, Path storedPath, Storage storage, User uploader) {
+    private StorageFile(String name, long sizeInBytes, Path storedPath, Storage storage, User uploader) {
         validateValues(sizeInBytes, storage, uploader);
         this.id = UUID.randomUUID().toString();
-        this.originalFilename = originalFilename;
+        this.name = name;
         this.sizeInBytes = sizeInBytes;
         this.storedPath = storedPath.toString();
         this.storage = storage;
