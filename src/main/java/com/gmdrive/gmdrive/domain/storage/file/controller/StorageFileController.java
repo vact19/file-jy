@@ -1,16 +1,21 @@
 package com.gmdrive.gmdrive.domain.storage.file.controller;
 
 import com.gmdrive.gmdrive.api.ResponseTemplate;
+import com.gmdrive.gmdrive.domain.storage.file.dto.StorageFileDownloadResponse;
 import com.gmdrive.gmdrive.domain.storage.file.entity.StorageFile;
 import com.gmdrive.gmdrive.domain.storage.file.service.StorageFileService;
+import com.gmdrive.gmdrive.global.error.errorcode.FileErrorCode;
+import com.gmdrive.gmdrive.global.error.exception.external.file.FileIOException;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,13 +24,13 @@ public class StorageFileController {
 
     @PostMapping("/storages/{storageId}/files")
     public ResponseEntity<ResponseTemplate<Void>> handleStorageFileUpload(
-        MultipartFile file,
-        @PathVariable long storageId,
-        @AuthenticationPrincipal long uploaderId
+        MultipartFile file
+        , @PathVariable long storageId
+        , @AuthenticationPrincipal long userId
     ) {
-        StorageFile uploadedFile = storageFileService.save(file, storageId, uploaderId);
+        StorageFile uploadedFile = storageFileService.save(file, storageId, userId);
         ResponseTemplate<Void> result = new ResponseTemplate<>(HttpStatus.CREATED,
-                String.format("업로드 완료. 파일명: %s, 파일 크기: %s", uploadedFile.getOriginalFilename(), uploadedFile.getDisplaySize())
+                String.format("업로드 완료. 파일명: %s, 파일 크기: %s", uploadedFile.getName(), uploadedFile.getDisplaySize())
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }

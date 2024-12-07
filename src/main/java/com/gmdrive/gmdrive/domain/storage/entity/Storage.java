@@ -55,6 +55,6 @@ public class Storage extends BaseEntity {
     }
 
     public boolean isStorageOwner(long userId) {
-        return id == userId;
+        return this.owner.getId() == userId;
     }
 }
