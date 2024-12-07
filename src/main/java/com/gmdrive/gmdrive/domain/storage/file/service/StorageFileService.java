@@ -42,4 +42,30 @@ public class StorageFileService {
                 .build();
         return storageFileRepository.save(storageFile);
     }
+
+    public StorageFileDownloadResponse getStorageFile(String fileId, long downloaderId) {
+        StorageFile storageFile = storageFileRepository.getById(fileId, StorageFileFetch.STORAGE);
+        validateStorageFileAuthority(storageFile.getStorage(), downloaderId);
+        byte[] fileData = fileManager.getByteArray(storageFile.getStoredPath());
+
+        return StorageFileDownloadResponse.from(storageFile, fileData);
+    }
+
+    // StorageType에 따라 적절한 권한 검증을 거친다.
+    private void validateStorageFileAuthority(Storage storage, long requestUserId) {
+        StorageType storageType = storage.getStorageType();
+
+        switch (storageType) {
+            case PERSONAL -> {
+                if (! storage.getOwner().getId().equals(requestUserId)) {
+                    log.error("{}. 저장소 소유자 ID -> {}, 요청자 ID -> {}"
+                            , StorageFileErrorCode.NOT_ENOUGH_AUTHORITY.getErrorStatus().message
+                            ,storage.getOwner().getId(), requestUserId
+                            );
+                    throw new BusinessException(StorageFileErrorCode.NOT_ENOUGH_AUTHORITY);
+                }
+            }
+            default -> throw new UncoveredEnumCaseException();
+        }
+    }
 }

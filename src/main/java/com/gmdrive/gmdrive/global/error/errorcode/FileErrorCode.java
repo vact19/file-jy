@@ -6,7 +6,7 @@ public enum FileErrorCode implements ErrorCode {
     // 파일
     FILE_CANNOT_BE_STORED(ErrorStatus.of(HttpStatus.INTERNAL_SERVER_ERROR, "파일을 저장할 수 없습니다.")),
     FILE_CANNOT_BE_READ(ErrorStatus.of(HttpStatus.INTERNAL_SERVER_ERROR, "파일을 읽을 수 없습니다.")),
-    FILE_CANNOT_BE_SENT(ErrorStatus.of(HttpStatus.INTERNAL_SERVER_ERROR, "읽어들인 파일을 전송할 수 없습니다")),
+    FAILED_RESPONSE(ErrorStatus.of(HttpStatus.INTERNAL_SERVER_ERROR, "읽어들인 파일을 전송할 수 없습니다")),
     UNSAVED_FILE_EXISTS(ErrorStatus.of(HttpStatus.INTERNAL_SERVER_ERROR, "저장되지 않은 파일이 존재합니다.")),
     MULTIPART_FILE_CANNOT_BE_READ(ErrorStatus.of(HttpStatus.INTERNAL_SERVER_ERROR, "업로드한 파일을 읽을 수 없습니다.")),
     NO_FILE_UPLOADED(ErrorStatus.of(HttpStatus.BAD_REQUEST, "파일명과 현재 입사자 이름이 일치하지 않아 파일이 업로드되지 않았습니다.")),

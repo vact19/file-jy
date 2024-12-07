@@ -28,8 +28,7 @@ public class DefaultErrorHandler implements ErrorController {
     public ResponseEntity<ErrorResponse> handleError(HttpServletRequest request) {
         Map<String, Object> errorAttributesMap = errorAttributes.getErrorAttributes(new ServletWebRequest(request), ErrorAttributeOptions.defaults());
         Throwable error = errorAttributes.getError(new ServletWebRequest(request));
-
-        log.error("예외처리 범위 외의 오류 발생 - ErrorController");
+        log.error("예외처리 범위 외의 오류 발생 - {}", this.getClass().getSimpleName()); // 상세한 에러 로그는 아래에서 출력할 것
 
         String errorMsg;
         if (error != null) {

@@ -29,4 +29,24 @@ public class StorageFileController {
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
+
+    @GetMapping("/files/{fileId}/download")
+    public void handleStorageFileUpload(
+            @PathVariable String fileId,
+            @AuthenticationPrincipal long userId,
+            HttpServletResponse response
+    ) {
+        StorageFileDownloadResponse downloadResponse = storageFileService.getStorageFile(fileId, userId);
+
+        ContentDisposition contentDisposition = ContentDisposition.attachment()
+                .filename(downloadResponse.name, StandardCharsets.UTF_8)
+                .build();
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
+
+        try(ServletOutputStream outputStream = response.getOutputStream()) {
+            outputStream.write(downloadResponse.data);
+        } catch (IOException e) {
+            throw new FileIOException(FileErrorCode.FAILED_RESPONSE, e);
+        }
+    }
 }

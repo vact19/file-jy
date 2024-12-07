@@ -1,8 +1,13 @@
 package com.gmdrive.gmdrive.domain.storage.file.repository;
 
+import com.gmdrive.gmdrive.domain.common.Datasource;
 import com.gmdrive.gmdrive.domain.storage.file.entity.StorageFile;
+import com.gmdrive.gmdrive.global.error.exception.common.UncoveredEnumCaseException;
+import com.gmdrive.gmdrive.global.error.exception.external.db.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -12,5 +17,24 @@ public class StorageFileRepository {
 
     public StorageFile save(StorageFile storageFile) {
         return jpaRepository.save(storageFile);
+    }
+
+    public StorageFile getById(String fileId) {
+        return jpaRepository.findById(fileId)
+                .orElseThrow(() -> new ResourceNotFoundException(Datasource.STORAGE_FILE, fileId));
+    }
+
+    public StorageFile getById(String fileId, StorageFileFetch fetch) {
+        Optional<StorageFile> storageFile = switch (fetch) {
+            case STORAGE -> jpaRepository.findByIdFetchStorage(fileId);
+            default -> throw new UncoveredEnumCaseException();
+        };
+
+        return storageFile.orElseThrow(() -> new ResourceNotFoundException(Datasource.STORAGE_FILE, fileId));
+    }
+
+    public enum StorageFileFetch {
+        STORAGE
+        , UPLOADER
     }
 }
