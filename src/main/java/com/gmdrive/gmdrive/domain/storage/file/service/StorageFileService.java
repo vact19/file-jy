@@ -2,7 +2,7 @@ package com.gmdrive.gmdrive.domain.storage.file.service;
 
 import com.gmdrive.gmdrive.domain.storage.entity.Storage;
 import com.gmdrive.gmdrive.domain.storage.entity.component.StorageType;
-import com.gmdrive.gmdrive.domain.storage.file.dto.StorageFileDownloadResponse;
+import com.gmdrive.gmdrive.domain.storage.file.api.dto.StorageFileDownloadResponse;
 import com.gmdrive.gmdrive.domain.storage.file.entity.StorageFile;
 import com.gmdrive.gmdrive.domain.storage.file.repository.StorageFileRepository;
 import com.gmdrive.gmdrive.domain.storage.file.repository.StorageFileRepository.StorageFileFetch;

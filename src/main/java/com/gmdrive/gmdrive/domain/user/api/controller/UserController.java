@@ -1,10 +1,10 @@
-package com.gmdrive.gmdrive.domain.user.controller;
+package com.gmdrive.gmdrive.domain.user.api.controller;
 
 import com.gmdrive.gmdrive.api.ResponseTemplate;
 import com.gmdrive.gmdrive.domain.jwt.dto.TokenDto;
-import com.gmdrive.gmdrive.domain.user.dto.UserSignInRequest;
-import com.gmdrive.gmdrive.domain.user.dto.UserSignUpRequest;
-import com.gmdrive.gmdrive.domain.user.dto.UserSignUpResponse;
+import com.gmdrive.gmdrive.domain.user.api.dto.UserSignInRequest;
+import com.gmdrive.gmdrive.domain.user.api.dto.UserSignUpRequest;
+import com.gmdrive.gmdrive.domain.user.api.dto.UserSignUpResponse;
 import com.gmdrive.gmdrive.domain.user.entity.User;
 import com.gmdrive.gmdrive.domain.user.service.UserService;
 import jakarta.validation.Valid;

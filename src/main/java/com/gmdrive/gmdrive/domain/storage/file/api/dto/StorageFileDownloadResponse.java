@@ -1,4 +1,4 @@
-package com.gmdrive.gmdrive.domain.storage.file.dto;
+package com.gmdrive.gmdrive.domain.storage.file.api.dto;
 
 import com.gmdrive.gmdrive.domain.storage.file.entity.StorageFile;
 import lombok.AccessLevel;

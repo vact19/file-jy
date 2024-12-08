@@ -1,4 +1,4 @@
-package com.gmdrive.gmdrive.domain.user.dto;
+package com.gmdrive.gmdrive.domain.user.api.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

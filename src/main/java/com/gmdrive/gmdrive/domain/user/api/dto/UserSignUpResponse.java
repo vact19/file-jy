@@ -1,4 +1,4 @@
-package com.gmdrive.gmdrive.domain.user.dto;
+package com.gmdrive.gmdrive.domain.user.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gmdrive.gmdrive.domain.user.entity.User;

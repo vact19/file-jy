@@ -1,7 +1,7 @@
-package com.gmdrive.gmdrive.domain.storage.file.controller;
+package com.gmdrive.gmdrive.domain.storage.file.api.controller;
 
 import com.gmdrive.gmdrive.api.ResponseTemplate;
-import com.gmdrive.gmdrive.domain.storage.file.dto.StorageFileDownloadResponse;
+import com.gmdrive.gmdrive.domain.storage.file.api.dto.StorageFileDownloadResponse;
 import com.gmdrive.gmdrive.domain.storage.file.entity.StorageFile;
 import com.gmdrive.gmdrive.domain.storage.file.service.StorageFileService;
 import com.gmdrive.gmdrive.global.error.errorcode.FileErrorCode;
