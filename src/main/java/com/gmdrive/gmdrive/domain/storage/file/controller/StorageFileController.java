@@ -37,9 +37,9 @@ public class StorageFileController {
 
     @GetMapping("/files/{fileId}/download")
     public void handleStorageFileUpload(
-            @PathVariable String fileId,
-            @AuthenticationPrincipal long userId,
-            HttpServletResponse response
+            @PathVariable String fileId
+            , @AuthenticationPrincipal long userId
+            , HttpServletResponse response
     ) {
         StorageFileDownloadResponse downloadResponse = storageFileService.getStorageFile(fileId, userId);
 
