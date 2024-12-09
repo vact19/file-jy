@@ -23,7 +23,7 @@ public class StorageFile extends BaseEntity {
     private String name;
     @Column(nullable = false)
     private long sizeInBytes;
-    private String storedPath;
+    private String storedFilename;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uploader_id")
@@ -34,12 +34,12 @@ public class StorageFile extends BaseEntity {
     private Storage storage;
 
     @Builder
-    private StorageFile(String name, long sizeInBytes, Path storedPath, Storage storage, User uploader) {
+    private StorageFile(String name, long sizeInBytes, String storedFilename, Storage storage, User uploader) {
         validateValues(sizeInBytes, storage, uploader);
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.sizeInBytes = sizeInBytes;
-        this.storedPath = storedPath.toString();
+        this.storedFilename = storedFilename;
         this.storage = storage;
         this.uploader = uploader;
     }

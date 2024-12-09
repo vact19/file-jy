@@ -15,27 +15,37 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ * 파일 경로는
+ * base path -> FileManager.baseFilePath
+ * sub path -> context path는 FilePrefix
+ * filename -> DB.
+
+ * basePath + subPath + filename 을 조합하여 파일 추가, 삭제를 수행함.
+ */
 @Slf4j
 @Component
 public class FileManager {
     // yml 설정파일
-    private final String fileUploadPath;
+    private final String baseFilePath;
 
-    public FileManager(@Value("${file.upload.path}")String fileUploadPath) {
-        this.fileUploadPath = fileUploadPath;
+    public FileManager(@Value("${file.base-path}")String baseFilePath) {
+        this.baseFilePath = baseFilePath;
     }
 
     /**@return "저장된 파일명 UUID" + ".확장자". */
-    public Path save(FilePrefix prefix, MultipartFile multipartFile){
+    public String save(FilePrefix prefix, MultipartFile multipartFile){
         // empty Check. type=file 이며 name이 일치한다면, 본문이 비어있어도 MultiPartFile 객체가 생성된다.
         if (multipartFile.isEmpty()) {
             throw new FileIOException(FileErrorCode.MULTIPART_FILE_CANNOT_BE_READ);
         }
+        String directoryToStore = baseFilePath + prefix.getPrefix();
         String filenameToStore = convertFileNameToUuid(multipartFile.getOriginalFilename());
-        Path filePathToStore = Paths.get(fileUploadPath + prefix.getPrefix(), filenameToStore);
-        
-        saveMultipartFile(multipartFile, filePathToStore);
-        return filePathToStore;
+        Path filePath = Path.of(directoryToStore, filenameToStore);
+
+        createDirectory(Path.of(directoryToStore));
+        saveMultipartFile(multipartFile, filePath);
+        return filenameToStore;
     }
 
     public void save(FilePrefix prefix, MultipartFile multipartFile, String filenameToStore){
@@ -43,7 +53,7 @@ public class FileManager {
         if (multipartFile.isEmpty()) {
             throw new FileIOException(FileErrorCode.MULTIPART_FILE_CANNOT_BE_READ);
         }
-        Path filePathToStore = Paths.get(fileUploadPath + prefix.getPrefix(), filenameToStore);
+        Path filePathToStore = Paths.get(baseFilePath + prefix.getPrefix(), filenameToStore);
 
         saveMultipartFile(multipartFile, filePathToStore);
     }
@@ -55,7 +65,7 @@ public class FileManager {
             return null;
         }
         String originalFileName = multipartFile.getOriginalFilename();
-        String storedFileFolderStr = fileUploadPath + subPath + prefix.getPrefix(); // 절대경로
+        String storedFileFolderStr = baseFilePath + subPath + prefix.getPrefix(); // 절대경로
         String storedFileStr = storedFileFolderStr + originalFileName; // 절대경로
         String storedRelativeFileStr = subPath + prefix.getPrefix() + originalFileName; // 상대경로
         Path storedFilePath = Paths.get(storedFileStr);
@@ -91,14 +101,13 @@ public class FileManager {
     }
 
     public byte[] getByteArray(FilePrefix filePrefix, String fileName) {
-        String fullFilePath = filePrefix.getPrefix() + fileName;
+        Path fullFilePath = Path.of(baseFilePath, filePrefix.getPrefix(), fileName);
         return getByteArray(fullFilePath);
     }
 
-    public byte[] getByteArray(String filePath) {
+    private byte[] getByteArray(Path filePath) {
         try  {
-            Path path = Paths.get(fileUploadPath + filePath);
-            return Files.readAllBytes(path);
+            return Files.readAllBytes(filePath);
         } catch (IOException e) {
             log.error("IOEXCEPTION 발생: filePath: {}", filePath);
             throw new FileIOException(FileErrorCode.FILE_CANNOT_BE_READ, e);
@@ -106,14 +115,10 @@ public class FileManager {
     }
 
     public void deleteFile(FilePrefix filePrefix, String fileName) {
-        deleteFile(filePrefix.getPrefix()+fileName);
+        deleteFile(Path.of(filePrefix.getPrefix(), fileName));
     }
 
-    public void deleteFile(String filePath) {
-        String filePathToDelete = fileUploadPath + filePath;
-        Path pathToDelete = Paths.get(filePathToDelete);
-
-        // NotNull 이므로 예외를 발생시키지 않고 바로 빠져나온다.
+    private void deleteFile(Path pathToDelete) {
         // 파일을 찾을 수 없다면 지울 수도 없으므로 작업 취소. DB파일명은 그대로인데 물리적인 파일만 삭제했을 경우를 대비한다.
         if(!Files.exists(pathToDelete)) return;
         try {
@@ -132,8 +137,15 @@ public class FileManager {
         return !ext.equals(fileExt.label);
     }
 
+    private void createDirectory(Path dirPath) {
+        try {
+            Files.createDirectories(dirPath);
+        } catch (IOException e) {
+            throw new FileIOException(FileErrorCode.FOLDER_CANNOT_BE_CREATED, e);
+        }
+    }
+
     /**
-     * this.fileUploadPath 내부에 저장될 directory 를 선택한다.
      * fileUploadPath + FilePrefix + fileName 으로 저장된다.
      */
     @Getter
@@ -142,7 +154,7 @@ public class FileManager {
         NONE(""),
         ;
 
-        private final String prefix;
+        public final String prefix;
 
         FilePrefix(String prefix) {
             this.prefix = prefix;

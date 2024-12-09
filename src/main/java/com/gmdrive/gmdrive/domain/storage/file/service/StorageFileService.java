@@ -37,21 +37,26 @@ public class StorageFileService {
         Storage storage = storageRepository.getById(storageId);
         validateStorageFileAuthority(storage, uploaderId);
 
-        Path uploadedFilePath = fileManager.save(FilePrefix.STORAGE_FILE, file);
+        String storedFilename = fileManager.save(FilePrefix.STORAGE_FILE, file);
         StorageFile storageFile = StorageFile.builder()
                 .name(file.getOriginalFilename())
                 .sizeInBytes(file.getSize())
-                .storedPath(uploadedFilePath)
+                .storedFilename(storedFilename)
                 .uploader(uploader)
                 .storage(storage)
                 .build();
-        return storageFileRepository.save(storageFile);
+        try {
+            return storageFileRepository.save(storageFile);
+        } catch (Exception e) {
+            fileManager.deleteFile(FilePrefix.STORAGE_FILE, storedFilename);
+            throw e;
+        }
     }
 
-    public StorageFileDownloadResponse getStorageFile(String fileId, long downloaderId) {
+    public StorageFileDownloadResponse download(String fileId, long downloaderId) {
         StorageFile storageFile = storageFileRepository.getById(fileId, StorageFileFetch.STORAGE);
         validateStorageFileAuthority(storageFile.getStorage(), downloaderId);
-        byte[] fileData = fileManager.getByteArray(storageFile.getStoredPath());
+        byte[] fileData = fileManager.getByteArray(FilePrefix.STORAGE_FILE, storageFile.getStoredFilename());
 
         return StorageFileDownloadResponse.from(storageFile, fileData);
     }
