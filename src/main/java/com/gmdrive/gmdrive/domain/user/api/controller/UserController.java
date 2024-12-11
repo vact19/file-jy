@@ -40,7 +40,7 @@ public class UserController {
         TokenDto tokenDto = userService.signIn(userSignInRequest);
         return new ResponseTemplate<>(
                 HttpStatus.OK,
-                String.format("회원 '%s' 가입 완료", tokenDto.getUsername()),
+                String.format("회원 '%s' 로그인 완료", tokenDto.getUsername()),
                 tokenDto
         );
     }
