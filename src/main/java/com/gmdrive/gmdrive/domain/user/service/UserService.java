@@ -39,7 +39,7 @@ public class UserService {
                 .password(passwordEncoder.encode(userSignUpRequest.password()))
                 .build();
         User savedUser = userRepository.save(user);
-        storageService.save(savedUser);
+        storageService.savePersonal(savedUser);
         return savedUser;
     }
 
