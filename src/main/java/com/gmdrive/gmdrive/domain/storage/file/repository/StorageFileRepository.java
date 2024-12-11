@@ -7,6 +7,7 @@ import com.gmdrive.gmdrive.global.error.exception.external.db.ResourceNotFoundEx
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -31,6 +32,10 @@ public class StorageFileRepository {
         };
 
         return storageFile.orElseThrow(() -> new ResourceNotFoundException(Datasource.STORAGE_FILE, fileId));
+    }
+
+    public List<StorageFile> findAllPersonal(long userId) {
+        return jpaRepository.findAllPersonal(userId);
     }
 
     public enum StorageFileFetch {

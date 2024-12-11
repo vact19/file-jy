@@ -3,6 +3,7 @@ package com.gmdrive.gmdrive.domain.storage.file.service;
 import com.gmdrive.gmdrive.domain.storage.entity.Storage;
 import com.gmdrive.gmdrive.domain.storage.entity.component.StorageType;
 import com.gmdrive.gmdrive.domain.storage.file.api.dto.StorageFileDownloadResponse;
+import com.gmdrive.gmdrive.domain.storage.file.api.dto.StorageFileListResponse;
 import com.gmdrive.gmdrive.domain.storage.file.entity.StorageFile;
 import com.gmdrive.gmdrive.domain.storage.file.repository.StorageFileRepository;
 import com.gmdrive.gmdrive.domain.storage.file.repository.StorageFileRepository.StorageFileFetch;
@@ -19,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Path;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -59,6 +60,11 @@ public class StorageFileService {
         byte[] fileData = fileManager.getByteArray(FilePrefix.STORAGE_FILE, storageFile.getStoredFilename());
 
         return StorageFileDownloadResponse.from(storageFile, fileData);
+    }
+
+    public StorageFileListResponse getLists(long requestUserId) {
+        List<StorageFile> storageFiles = storageFileRepository.findAllPersonal(requestUserId);
+        return StorageFileListResponse.from(storageFiles);
     }
 
     // StorageType에 따라 적절한 권한 검증을 거친다.

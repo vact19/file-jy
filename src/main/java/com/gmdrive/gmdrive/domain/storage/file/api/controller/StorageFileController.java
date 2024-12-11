@@ -2,6 +2,7 @@ package com.gmdrive.gmdrive.domain.storage.file.api.controller;
 
 import com.gmdrive.gmdrive.api.ResponseTemplate;
 import com.gmdrive.gmdrive.domain.storage.file.api.dto.StorageFileDownloadResponse;
+import com.gmdrive.gmdrive.domain.storage.file.api.dto.StorageFileListResponse;
 import com.gmdrive.gmdrive.domain.storage.file.entity.StorageFile;
 import com.gmdrive.gmdrive.domain.storage.file.service.StorageFileService;
 import com.gmdrive.gmdrive.global.error.errorcode.FileErrorCode;
@@ -35,13 +36,24 @@ public class StorageFileController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
+    // 본인 저장소 파일 조회. 스크롤-커서기반 페이지네이션 이후 적용
+    @GetMapping("/storages/me/files")
+    public ResponseTemplate<StorageFileListResponse> handleGetStorageFiles(
+            @AuthenticationPrincipal long userId
+    ) {
+        StorageFileListResponse downloadResponse = storageFileService.getLists(userId);
+        return new ResponseTemplate<>(HttpStatus.OK
+                , String.format("파일 %d건 조회 완료", downloadResponse.storageFiles.size())
+                , downloadResponse);
+    }
+
     @GetMapping("/files/{fileId}/download")
     public void handleStorageFileUpload(
             @PathVariable String fileId
             , @AuthenticationPrincipal long userId
             , HttpServletResponse response
     ) {
-        StorageFileDownloadResponse downloadResponse = storageFileService.getStorageFile(fileId, userId);
+        StorageFileDownloadResponse downloadResponse = storageFileService.download(fileId, userId);
 
         ContentDisposition contentDisposition = ContentDisposition.attachment()
                 .filename(downloadResponse.name, StandardCharsets.UTF_8)

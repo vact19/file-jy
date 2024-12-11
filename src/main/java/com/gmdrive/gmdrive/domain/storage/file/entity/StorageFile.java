@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.nio.file.Path;
 import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
