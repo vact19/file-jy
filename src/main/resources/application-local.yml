@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  main:
+    lazy-initialization: true
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_ID}
+    password: ${DB_PW}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql : true
+        default_batch_fetch_size: 1000 # where in ()
+
+    show-sql: true
+    open-in-view: false
+
+logging:
+  level:
+    org.hibernate.type: trace
+
+file:
+  base-path:

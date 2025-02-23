@@ -1,0 +1,21 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+  jpa:
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        query:
+          fail_on_pagination_over_collection_fetch: true
+
+token:
+  secret:
+  access-token-expiration-minute:
+  refresh-token-expiration-day:
+
+server:
+  error:
+    include-message: never
+    include-stacktrace: never
