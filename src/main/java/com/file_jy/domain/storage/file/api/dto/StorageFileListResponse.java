@@ -26,6 +26,7 @@ public class StorageFileListResponse {
         public final LocalDateTime createdTime;
         public final LocalDateTime lastModifiedTime;
         public final String fileSize;
+        public final String downloadLink;
 
         private static List<StorageFileListItemDto> from(List<StorageFile> storageFiles) {
             return storageFiles.stream()
@@ -35,6 +36,7 @@ public class StorageFileListResponse {
                             .createdTime(storageFile.getCreatedTime())
                             .lastModifiedTime(storageFile.getLastModifiedTime())
                             .fileSize(storageFile.getDisplaySize())
+                            .downloadLink(String.format("/files/%s/download", storageFile.getId()))
                             .build()
                     )
                     .toList();
