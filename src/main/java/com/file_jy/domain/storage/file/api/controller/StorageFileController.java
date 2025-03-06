@@ -7,6 +7,7 @@ import com.file_jy.domain.storage.file.entity.StorageFile;
 import com.file_jy.domain.storage.file.service.StorageFileService;
 import com.file_jy.global.error.errorcode.FileErrorCode;
 import com.file_jy.global.error.exception.external.file.FileIOException;
+import com.github.f4b6a3.uuid.UuidCreator;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +54,9 @@ public class StorageFileController {
             , @AuthenticationPrincipal long userId
             , HttpServletResponse response
     ) {
-        StorageFileDownloadResponse downloadResponse = storageFileService.download(fileId, userId);
+        StorageFileDownloadResponse downloadResponse = storageFileService.download(
+                UuidCreator.fromString(fileId), userId
+        );
 
         ContentDisposition contentDisposition = ContentDisposition.attachment()
                 .filename(downloadResponse.name, StandardCharsets.UTF_8)

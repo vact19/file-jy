@@ -5,11 +5,9 @@ import com.file_jy.domain.storage.entity.Storage;
 import com.file_jy.domain.user.entity.User;
 import com.file_jy.global.error.errorcode.StorageFileErrorCode;
 import com.file_jy.global.error.exception.business.BusinessException;
+import com.github.f4b6a3.uuid.UuidCreator;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -18,7 +16,8 @@ import java.util.UUID;
 @Entity
 public class StorageFile extends BaseEntity {
     @Id
-    private String id;
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
     private String name;
     @Column(nullable = false)
     private long sizeInBytes;
@@ -35,7 +34,7 @@ public class StorageFile extends BaseEntity {
     @Builder
     private StorageFile(String name, long sizeInBytes, String storedFilename, Storage storage, User uploader) {
         validateValues(sizeInBytes, storage, uploader);
-        this.id = UUID.randomUUID().toString();
+        this.id = UuidCreator.getTimeOrderedEpoch();
         this.name = name;
         this.sizeInBytes = sizeInBytes;
         this.storedFilename = storedFilename;

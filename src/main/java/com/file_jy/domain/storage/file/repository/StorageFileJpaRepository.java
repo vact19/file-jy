@@ -7,12 +7,13 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface StorageFileJpaRepository extends JpaRepository<StorageFile, String> {
+public interface StorageFileJpaRepository extends JpaRepository<StorageFile, UUID> {
     @Query("SELECT sfile FROM StorageFile sfile" +
             " JOIN FETCH sfile.storage" +
             " WHERE sfile.id = :id")
-    Optional<StorageFile> findByIdFetchStorage(@Param("id") String id);
+    Optional<StorageFile> findByIdFetchStorage(@Param("id") UUID id);
 
     @Query("SELECT sfile FROM StorageFile sfile" +
             " WHERE sfile.storage.id = (" +

@@ -9,5 +9,4 @@ public class FileJYApplication {
     public static void main(String[] args) {
         SpringApplication.run(FileJYApplication.class, args);
     }
-
 }

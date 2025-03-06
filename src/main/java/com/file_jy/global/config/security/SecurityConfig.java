@@ -36,12 +36,12 @@ public class SecurityConfig {
         http.httpBasic().disable()
                 .csrf().disable()
                 .cors().configurationSource(corsConfigurationSource()).and()
-                .formLogin().disable() // 폼 로그인 비활성화. JWT 필터로 대체
+                .formLogin().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // OPTIONS 메서드 모든 경로 허용
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/error").permitAll() // GET /error 허용. 전역 예외처리를 타지 못해서 리다이렉트될 경우.
                         .requestMatchers(HttpMethod.POST, "/users", "/users/sign-in").permitAll()
                         .anyRequest().authenticated()

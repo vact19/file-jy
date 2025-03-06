@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -54,7 +55,7 @@ public class StorageFileService {
         }
     }
 
-    public StorageFileDownloadResponse download(String fileId, long downloaderId) {
+    public StorageFileDownloadResponse download(UUID fileId, long downloaderId) {
         StorageFile storageFile = storageFileRepository.getById(fileId, StorageFileFetch.STORAGE);
         validateStorageFileAuthority(storageFile.getStorage(), downloaderId);
         byte[] fileData = fileManager.getByteArray(FilePrefix.STORAGE_FILE, storageFile.getStoredFilename());

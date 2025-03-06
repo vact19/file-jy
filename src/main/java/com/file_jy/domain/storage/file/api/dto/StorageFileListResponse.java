@@ -31,7 +31,7 @@ public class StorageFileListResponse {
         private static List<StorageFileListItemDto> from(List<StorageFile> storageFiles) {
             return storageFiles.stream()
                     .map(storageFile -> StorageFileListItemDto.builder()
-                            .id(storageFile.getId())
+                            .id(storageFile.getId().toString())
                             .name(storageFile.getName())
                             .createdTime(storageFile.getCreatedTime())
                             .lastModifiedTime(storageFile.getLastModifiedTime())

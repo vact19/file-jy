@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Repository
@@ -20,12 +21,7 @@ public class StorageFileRepository {
         return jpaRepository.save(storageFile);
     }
 
-    public StorageFile getById(String fileId) {
-        return jpaRepository.findById(fileId)
-                .orElseThrow(() -> new ResourceNotFoundException(Datasource.STORAGE_FILE, fileId));
-    }
-
-    public StorageFile getById(String fileId, StorageFileFetch fetch) {
+    public StorageFile getById(UUID fileId, StorageFileFetch fetch) {
         Optional<StorageFile> storageFile = switch (fetch) {
             case STORAGE -> jpaRepository.findByIdFetchStorage(fileId);
             default -> throw new UncoveredEnumCaseException();
