@@ -5,11 +5,14 @@ import com.file_jy.domain.storage.entity.component.StorageType;
 import com.file_jy.domain.user.entity.User;
 import com.file_jy.global.error.errorcode.StorageErrorCode;
 import com.file_jy.global.error.exception.business.BusinessException;
+import com.github.f4b6a3.uuid.UuidCreator;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
+
+import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -17,8 +20,8 @@ import org.springframework.util.StringUtils;
 public class Storage extends BaseEntity {
     private static final int DEFAULT_UPLOAD_LIMIT_GB = 1;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
     private String name;
     @Enumerated(EnumType.STRING)
     private StorageType storageType;
@@ -30,6 +33,7 @@ public class Storage extends BaseEntity {
 
     private Storage(String name, User owner, StorageType storageType) {
         validateValues(name, owner, storageType);
+        this.id = UuidCreator.getTimeOrderedEpoch();
         this.name = name;
         this.owner = owner;
         this.storageType = storageType;
@@ -40,7 +44,7 @@ public class Storage extends BaseEntity {
         if (! StringUtils.hasText(name)) {
             throw new BusinessException(StorageErrorCode.NO_STORAGE_NAME, name);
         }
-        // if owner, storageType
+
         if (owner == null) {
             throw new BusinessException(StorageErrorCode.NO_STORAGE_OWNER, owner);
         }

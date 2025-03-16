@@ -33,7 +33,7 @@ public class StorageFileService {
     private final UserRepository userRepository;
     private final FileManager fileManager;
 
-    public StorageFile save(MultipartFile file, long storageId, long uploaderId) {
+    public StorageFile save(MultipartFile file, UUID storageId, long uploaderId) {
         // 권한 검사
         User uploader = userRepository.getById(uploaderId);
         Storage storage = storageRepository.getById(storageId);

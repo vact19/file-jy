@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,10 +28,10 @@ public class StorageFileController {
     @PostMapping("/storages/{storageId}/files")
     public ResponseEntity<ResponseTemplate<Void>> handleStorageFileUpload(
         MultipartFile file
-        , @PathVariable long storageId
+        , @PathVariable String storageId
         , @AuthenticationPrincipal long userId
     ) {
-        StorageFile uploadedFile = storageFileService.save(file, storageId, userId);
+        StorageFile uploadedFile = storageFileService.save(file, UUID.fromString(storageId), userId);
         ResponseTemplate<Void> result = new ResponseTemplate<>(HttpStatus.CREATED,
                 String.format("업로드 완료. 파일명: %s, 파일 크기: %s", uploadedFile.getName(), uploadedFile.getDisplaySize())
         );

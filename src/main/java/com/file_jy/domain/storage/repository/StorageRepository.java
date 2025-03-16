@@ -6,6 +6,8 @@ import com.file_jy.global.error.exception.external.db.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Repository
 public class StorageRepository {
@@ -15,7 +17,7 @@ public class StorageRepository {
         return jpaRepository.save(personalStorage);
     }
 
-    public Storage getById(long id) {
+    public Storage getById(UUID id) {
         return jpaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Datasource.STORAGE, id));
     }
