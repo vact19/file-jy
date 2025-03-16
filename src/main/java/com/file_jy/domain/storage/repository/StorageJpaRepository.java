@@ -19,4 +19,10 @@ public interface StorageJpaRepository extends JpaRepository<Storage, UUID> {
             , nativeQuery = true
     )
     Integer existsPersonalByOwnerId(@Param("ownerId") long ownerId);
+
+    @Query(value = "SELECT storage.id FROM Storage storage" +
+            " WHERE storage.owner.id = :ownerId" +
+            " AND storage.storageType = " + PERSONAL
+    )
+    Optional<UUID> getPersonalIdByOwnerId(@Param("ownerId") long ownerId);
 }

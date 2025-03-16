@@ -10,11 +10,12 @@ import java.util.List;
 
 @AllArgsConstructor
 public class StorageFileListResponse {
+    public final String storageId;
     public final List<StorageFileListItemDto> storageFiles;
 
-    public static StorageFileListResponse from(List<StorageFile> storageFiles) {
+    public static StorageFileListResponse from(String storageId, List<StorageFile> storageFiles) {
         return new StorageFileListResponse(
-                StorageFileListItemDto.from(storageFiles)
+                storageId, StorageFileListItemDto.from(storageFiles)
         );
     }
 

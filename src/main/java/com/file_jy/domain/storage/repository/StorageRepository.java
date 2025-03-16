@@ -26,4 +26,9 @@ public class StorageRepository {
         Integer booleanInt = jpaRepository.existsPersonalByOwnerId(id);
         return booleanInt > 0;
     }
+
+    public UUID getPersonalIdByOwnerId(long ownerId) {
+        return jpaRepository.getPersonalIdByOwnerId(ownerId)
+                .orElseThrow(() -> new ResourceNotFoundException(Datasource.STORAGE, "ownerId", ownerId));
+    }
 }

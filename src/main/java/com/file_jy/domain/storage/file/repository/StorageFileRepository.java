@@ -30,8 +30,8 @@ public class StorageFileRepository {
         return storageFile.orElseThrow(() -> new ResourceNotFoundException(Datasource.STORAGE_FILE, fileId));
     }
 
-    public List<StorageFile> findAllPersonal(long userId) {
-        return jpaRepository.findAllPersonal(userId);
+    public List<StorageFile> findAllPersonalByStorageId(UUID storageId) {
+        return jpaRepository.findAllPersonalByStorageId(storageId);
     }
 
     public enum StorageFileFetch {

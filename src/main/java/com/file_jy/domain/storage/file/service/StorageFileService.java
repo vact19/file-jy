@@ -64,8 +64,9 @@ public class StorageFileService {
     }
 
     public StorageFileListResponse getLists(long requestUserId) {
-        List<StorageFile> storageFiles = storageFileRepository.findAllPersonal(requestUserId);
-        return StorageFileListResponse.from(storageFiles);
+        UUID storageId = storageRepository.getPersonalIdByOwnerId(requestUserId);
+        List<StorageFile> storageFiles = storageFileRepository.findAllPersonalByStorageId(storageId);
+        return StorageFileListResponse.from(storageId.toString(), storageFiles);
     }
 
     // StorageType에 따라 적절한 권한 검증을 거친다.
