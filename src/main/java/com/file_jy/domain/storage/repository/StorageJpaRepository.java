@@ -20,9 +20,15 @@ public interface StorageJpaRepository extends JpaRepository<Storage, UUID> {
     )
     Integer existsPersonalByOwnerId(@Param("ownerId") long ownerId);
 
-    @Query(value = "SELECT storage.id FROM Storage storage" +
+    @Query("SELECT storage.id FROM Storage storage" +
             " WHERE storage.owner.id = :ownerId" +
             " AND storage.storageType = " + PERSONAL
     )
     Optional<UUID> getPersonalIdByOwnerId(@Param("ownerId") long ownerId);
+
+    @Query("SELECT storage.id FROM Storage storage" +
+            " WHERE storage.owner.loginId = :loginId" +
+            " AND storage.storageType = " + PERSONAL
+    )
+    Optional<UUID> getPersonalIdByOwnerLoginId(@Param("loginId")String loginId);
 }

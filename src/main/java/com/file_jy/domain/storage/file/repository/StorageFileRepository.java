@@ -24,6 +24,7 @@ public class StorageFileRepository {
     public StorageFile getById(UUID fileId, StorageFileFetch fetch) {
         Optional<StorageFile> storageFile = switch (fetch) {
             case STORAGE -> jpaRepository.findByIdFetchStorage(fileId);
+            case UPLOADER -> jpaRepository.findByIdFetchUploader(fileId);
             default -> throw new UncoveredEnumCaseException();
         };
 
@@ -32,6 +33,10 @@ public class StorageFileRepository {
 
     public List<StorageFile> findAllPersonalByStorageId(UUID storageId) {
         return jpaRepository.findAllPersonalByStorageId(storageId);
+    }
+
+    public List<StorageFile> findAllSharingByStorageId(UUID storageId) {
+        return jpaRepository.findAllSharingByStorageId(storageId);
     }
 
     public enum StorageFileFetch {

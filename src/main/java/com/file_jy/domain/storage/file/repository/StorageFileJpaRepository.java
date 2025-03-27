@@ -13,10 +13,21 @@ public interface StorageFileJpaRepository extends JpaRepository<StorageFile, UUI
     @Query("SELECT sfile FROM StorageFile sfile" +
             " JOIN FETCH sfile.storage" +
             " WHERE sfile.id = :id")
-    Optional<StorageFile> findByIdFetchStorage(@Param("id") UUID id);
+    Optional<StorageFile> findByIdFetchStorage(@Param("id") UUID fileId);
+
+    @Query("SELECT sfile FROM StorageFile sfile" +
+            " JOIN FETCH sfile.uploader" +
+            " WHERE sfile.id = :id")
+    Optional<StorageFile> findByIdFetchUploader(@Param("id") UUID fileId);
 
     @Query("SELECT sfile FROM StorageFile sfile" +
             " WHERE sfile.storage.id = :storageId" +
             " ORDER BY sfile.createdTime DESC")
     List<StorageFile> findAllPersonalByStorageId(@Param("storageId") UUID storageId);
+
+    @Query("SELECT sfile FROM StorageFile sfile" +
+            " WHERE sfile.storage.id = :storageId" +
+                " AND sfile.isSharing = true" +
+            " ORDER BY sfile.createdTime DESC")
+    List<StorageFile> findAllSharingByStorageId(@Param("storageId") UUID storageId);
 }

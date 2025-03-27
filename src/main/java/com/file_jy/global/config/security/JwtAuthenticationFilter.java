@@ -30,13 +30,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        verifyTokenAndSetAuthentication(request, header);
-
+        verifyTokenAndSetAuthentication(request);
         filterChain.doFilter(request, response);
     }
 
-    private void verifyTokenAndSetAuthentication(HttpServletRequest request, String authHeader){
+    private void verifyTokenAndSetAuthentication(HttpServletRequest request){
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         //  1. 토큰 유무 확인
         if(!StringUtils.hasText(authHeader)){
             request.setAttribute(ErrorCode.class.getSimpleName(), AuthErrorCode.NOT_EXISTS_AUTH_HEADER);

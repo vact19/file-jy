@@ -19,6 +19,10 @@ public class StorageFileListResponse {
         );
     }
 
+    public static StorageFileListResponse from(List<StorageFile> storageFiles) {
+        return from(null, storageFiles);
+    }
+
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class StorageFileListItemDto {
@@ -28,6 +32,7 @@ public class StorageFileListResponse {
         public final LocalDateTime lastModifiedTime;
         public final String fileSize;
         public final String downloadLink;
+        public final boolean isSharing;
 
         private static List<StorageFileListItemDto> from(List<StorageFile> storageFiles) {
             return storageFiles.stream()
@@ -38,6 +43,7 @@ public class StorageFileListResponse {
                             .lastModifiedTime(storageFile.getLastModifiedTime())
                             .fileSize(storageFile.getDisplaySize())
                             .downloadLink(String.format("/files/%s/download", storageFile.getId()))
+                            .isSharing(storageFile.isSharing())
                             .build()
                     )
                     .toList();

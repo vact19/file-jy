@@ -31,4 +31,9 @@ public class StorageRepository {
         return jpaRepository.getPersonalIdByOwnerId(ownerId)
                 .orElseThrow(() -> new ResourceNotFoundException(Datasource.STORAGE, "ownerId", ownerId));
     }
+
+    public UUID getPersonalIdByOwnerLoginId(String loginId) {
+        return jpaRepository.getPersonalIdByOwnerLoginId(loginId)
+                .orElseThrow(() -> new ResourceNotFoundException(Datasource.STORAGE, "ownerLoginId", loginId));
+    }
 }

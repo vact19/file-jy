@@ -66,4 +66,8 @@ public class StorageFile extends BaseEntity {
         }
         return String.format("%.2f GB", sizeInBytes / (1024.0 * 1024.0 * 1024.0));
     }
+
+    public void toggleSharing() {
+        this.isSharing = !this.isSharing;
+    }
 }

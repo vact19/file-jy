@@ -43,6 +43,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/error").permitAll() // GET /error 허용. 전역 예외처리를 타지 못해서 리다이렉트될 경우.
+                        .requestMatchers(HttpMethod.GET, "/files/share/**", "/files/*/download").permitAll() // 공유파일 접근허용
                         .requestMatchers(HttpMethod.POST, "/users", "/users/sign-in").permitAll()
                         .anyRequest().authenticated()
                 )
