@@ -22,6 +22,7 @@ public class StorageFile extends BaseEntity {
     @Column(nullable = false)
     private long sizeInBytes;
     private String storedFilename;
+    private boolean isSharing;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uploader_id")
@@ -40,6 +41,7 @@ public class StorageFile extends BaseEntity {
         this.storedFilename = storedFilename;
         this.storage = storage;
         this.uploader = uploader;
+        this.isSharing = false;
     }
 
     private static void validateValues(long sizeInBytes, Storage storage, User uploader) {
