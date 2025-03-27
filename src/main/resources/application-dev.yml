@@ -16,11 +16,12 @@ spring:
       hibernate:
         format_sql : true
         default_batch_fetch_size: 1000 # where in ()
-
     show-sql: true
     open-in-view: false
 
 logging:
+  file:
+    name: /app/log/app.log
   level:
     org.hibernate.type: trace
 
