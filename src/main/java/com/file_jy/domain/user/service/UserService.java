@@ -28,13 +28,12 @@ public class UserService {
 
     @Transactional
     public User signUp(UserSignUpRequest userSignUpRequest) {
-        Email email = new Email(userSignUpRequest.email());
-        if (userRepository.existsByEmail(email)) {
-            throw new BusinessException(UserErrorCode.EMAIL_ALREADY_EXISTS);
+        if (userRepository.existsByLoginId(userSignUpRequest.loginId())) {
+            throw new BusinessException(UserErrorCode.LOGIN_ID_ALREADY_EXISTS);
         }
 
         User user = User.builder()
-                .email(email)
+                .loginId(userSignUpRequest.loginId())
                 .username(userSignUpRequest.username())
                 .password(passwordEncoder.encode(userSignUpRequest.password()))
                 .build();
@@ -44,11 +43,10 @@ public class UserService {
     }
 
     public TokenDto signIn(UserSignInRequest userSignInRequest) {
-        Email email = new Email(userSignInRequest.email());
         String rawPassword = userSignInRequest.password();
 
         // 비밀번호 매칭 확인
-        User user = userRepository.getByEmail(email);
+        User user = userRepository.getByLoginId(userSignInRequest.loginId());
         boolean isPasswordMatched = passwordEncoder.matches(rawPassword, user.getPassword());
         if (! isPasswordMatched) {
             log.warn("비밀번호 검증 실패. source -> {}", rawPassword);
